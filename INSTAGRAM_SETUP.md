@@ -2,11 +2,31 @@
 
 This guide will help you set up Instagram Basic Display API integration for the Fitness Analytics Platform.
 
-## Prerequisites
+## Important: Developer vs. End User Setup
 
-- Meta Developer account (free)
-- Instagram Business or Creator account
-- Valid callback URL (your domain)
+**This setup is for YOU (the developer) only.**
+
+Your end users (gym owners) will NOT need to:
+- Create a Meta Developer account ❌
+- Create their own Instagram app ❌
+- Get API credentials ❌
+
+Instead, end users will simply:
+- Click "Connect Instagram" in your app ✅
+- Log in to their Instagram account ✅
+- Authorize your app to access their data ✅
+
+This is how SaaS platforms like Buffer, Hootsuite, and Later work - they have ONE Instagram app that all their users connect their accounts to.
+
+## Prerequisites (For You, the Developer)
+
+- Meta Developer account (free - you create this once)
+- Valid callback URL (your domain for production)
+
+## Prerequisites (For End Users)
+
+- Instagram account (any type works, but Business/Creator preferred for insights)
+- That's it!
 
 ## Step 1: Create Meta Developer Account
 
@@ -85,6 +105,25 @@ CORS_ORIGINS=["http://localhost:3000","http://localhost:8000","https://your-doma
 5. Log in and authorize the app
 6. You'll be redirected back to your app with the access token
 
+## How It Works for End Users
+
+When a gym owner (end user) uses your app:
+
+1. **They click "Connect Instagram"** in your dashboard
+2. **They're redirected to Instagram** (using YOUR app's credentials)
+3. **They log in to THEIR Instagram account**
+4. **They authorize YOUR app** to access their data
+5. **Instagram sends them back** to your app with an access token
+6. **Your app stores the token** linked to their user account
+7. **They can now sync their posts** and get predictions
+
+This is standard OAuth 2.0 flow - the same way:
+- You connect your Spotify account to third-party apps
+- You connect your Google account to other services
+- You connect your Instagram to Buffer, Hootsuite, etc.
+
+**Your app handles all the technical complexity - end users just click and login.**
+
 ## Important Notes
 
 ### For Development:
@@ -102,6 +141,8 @@ CORS_ORIGINS=["http://localhost:3000","http://localhost:8000","https://your-doma
   - App description
   - Screenshots or demo video
   - App icon
+
+**Note**: This review is only for YOUR app. Once approved, any end user can connect their Instagram account without needing their own Meta developer account.
 
 ### Permissions Required:
 The Instagram Basic Display API provides:
@@ -174,3 +215,36 @@ This allows you to test the UI and flow without real Instagram integration.
 - [Instagram Basic Display API Docs](https://developers.facebook.com/docs/instagram-basic-display-api)
 - [Meta App Review Guidelines](https://developers.facebook.com/docs/app-review/)
 - [Instagram Graph API Reference](https://developers.facebook.com/docs/instagram-api/reference)
+
+## FAQ
+
+### Q: Do my end users need a Meta Developer account?
+**A: No.** Only you (the developer) need one Meta Developer account and one Instagram app. End users just connect their Instagram accounts to your app.
+
+### Q: Do end users need to add their Instagram as testers?
+**A: No.** In development mode, you add testers. In production (after Meta review), anyone can connect their Instagram account.
+
+### Q: Can multiple users connect their Instagram accounts?
+**A: Yes!** That's the whole point. One Instagram app can serve thousands of users connecting their individual accounts.
+
+### Q: Is this secure?
+**A: Yes.** Each user gets their own access token stored in your database. Tokens are encrypted and can be revoked. You only see the data they explicitly authorize.
+
+### Q: What if Instagram changes their API?
+**A:** Instagram periodically updates their API. Monitor their developer announcements and update your code accordingly. The Basic Display API is relatively stable.
+
+### Q: Can I test without real Instagram data?
+**A: Yes.** The prediction features work without Instagram data using heuristic models. Instagram data just makes predictions more accurate.
+
+### Q: What's the difference between Basic Display and Graph API?
+**A:**
+- **Basic Display**: Simpler, requires user login, good for small apps
+- **Graph API**: More features, requires Business accounts, more complex
+
+This app uses Basic Display for simplicity, but can be upgraded to Graph API if needed.
+
+### Q: Do I need to pay for the Instagram API?
+**A: No.** The Instagram Basic Display API is free. However, there are rate limits on API calls.
+
+### Q: What happens if a user disconnects their Instagram?
+**A:** They can revoke access in their Instagram settings. Your app should handle token expiration gracefully and prompt them to reconnect.

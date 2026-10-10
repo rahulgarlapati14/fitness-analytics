@@ -177,6 +177,8 @@ See `.env.example` for required environment variables:
 
 ### Instagram Integration Setup
 
+**Note: This setup is for YOU (the developer). End users do NOT need to do this.**
+
 To enable Instagram SSO and data syncing:
 
 1. **Follow the setup guide**: See [INSTAGRAM_SETUP.md](INSTAGRAM_SETUP.md) for detailed instructions
@@ -185,7 +187,13 @@ To enable Instagram SSO and data syncing:
 4. **Get credentials**: Copy App ID and App Secret
 5. **Configure environment**: Add to `backend/.env`
 
-**Important**: For production deployment, the app must be submitted for Meta review (takes 1-2 weeks).
+**For End Users:**
+- They simply click "Connect Instagram" in your app
+- They log in to THEIR Instagram account
+- They authorize your app to access their data
+- Done! No technical setup required on their end
+
+**Important**: For production deployment, the app must be submitted for Meta review (takes 1-2 weeks). This is a one-time review for your app - once approved, all end users can connect their Instagram accounts.
 
 ## Development
 
