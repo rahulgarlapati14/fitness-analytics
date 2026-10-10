@@ -4,8 +4,14 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from .config import settings
 
-# Password hashing context
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Password hashing context - using argon2 (no 72-byte limit, more secure)
+pwd_context = CryptContext(
+    schemes=["argon2"],
+    deprecated="auto",
+    argon2__time_cost=2,
+    argon2__memory_cost=512,
+    argon2__parallelism=2
+)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:

@@ -132,9 +132,11 @@ export default function RegisterForm() {
               onChange={handleChange}
               required
               minLength={8}
+              maxLength={72}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="••••••••"
             />
+            <p className="text-xs text-gray-500 mt-1">8-72 characters</p>
           </div>
 
           <button
