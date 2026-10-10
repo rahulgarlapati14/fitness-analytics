@@ -9,7 +9,7 @@ export default function PredictionsPage() {
   const [mediaType, setMediaType] = useState('image');
   const [offerType, setOfferType] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<any>(null);
   const [demoMode, setDemoMode] = useState(false);
 
   const handlePredict = async () => {
