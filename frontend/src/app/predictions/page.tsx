@@ -28,7 +28,7 @@ export default function PredictionsPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [demoMode, setDemoMode] = useState(false);
-  const [lastInputHash, setLastInputHash] = useState<string>('');
+  const [lastInputHash, setLastInputHash] = useState<number>(0);
   const [cachedPrediction, setCachedPrediction] = useState<any | null>(null);
 
   const handlePredict = async () => {
