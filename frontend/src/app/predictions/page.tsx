@@ -28,8 +28,8 @@ export default function PredictionsPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [demoMode, setDemoMode] = useState(false);
-  const [lastInputHash, setLastInputHash] = useState('');
-  const [cachedPrediction, setCachedPrediction] = useState<any>(null);
+  const [lastInputHash, setLastInputHash] = useState<string>('');
+  const [cachedPrediction, setCachedPrediction] = useState<any | null>(null);
 
   const handlePredict = async () => {
     setLoading(true);
@@ -68,7 +68,7 @@ export default function PredictionsPage() {
     }, 0);
 
     // If same input, return cached prediction
-    if (inputHash === lastInputHash && cachedPrediction) {
+    if (inputHash === lastInputHash && cachedPrediction !== null) {
       setResult(cachedPrediction);
       return;
     }
