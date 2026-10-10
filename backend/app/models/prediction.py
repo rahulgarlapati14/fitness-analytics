@@ -30,6 +30,9 @@ class Prediction(Base):
     recommended_offer_type = Column(String)
     offer_rationale = Column(String)
     
+    # Hashtag recommendation
+    recommended_hashtags = Column(JSON)
+    
     # Model metadata
     model_version = Column(String)
     model_name = Column(String)

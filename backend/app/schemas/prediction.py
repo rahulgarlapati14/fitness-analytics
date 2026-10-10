@@ -37,6 +37,15 @@ class OfferRecommendation(BaseModel):
     suggested_copy: Optional[str] = None
 
 
+class HashtagRecommendation(BaseModel):
+    recommended_hashtags: List[str]
+    optimal_count: int
+    existing_hashtags: List[str]
+    suggested_count: int
+    rationale: str
+    trending_hashtags: List[str]
+
+
 class PredictionResponse(BaseModel):
     id: int
     prediction_type: str
@@ -44,6 +53,7 @@ class PredictionResponse(BaseModel):
     conversion: Optional[ConversionPrediction] = None
     timing: Optional[TimingPrediction] = None
     offer: Optional[OfferRecommendation] = None
+    hashtags: Optional[HashtagRecommendation] = None
     model_version: str
     created_at: datetime
 

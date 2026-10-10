@@ -50,6 +50,15 @@ export interface OfferRecommendation {
   suggested_copy?: string;
 }
 
+export interface HashtagRecommendation {
+  recommended_hashtags: string[];
+  optimal_count: number;
+  existing_hashtags: string[];
+  suggested_count: number;
+  rationale: string;
+  trending_hashtags: string[];
+}
+
 export interface PredictionResponse {
   id: number;
   prediction_type: string;
@@ -57,6 +66,7 @@ export interface PredictionResponse {
   conversion?: ConversionPrediction;
   timing?: TimingPrediction;
   offer?: OfferRecommendation;
+  hashtags?: HashtagRecommendation;
   model_version: string;
   created_at: string;
 }

@@ -2,6 +2,23 @@
 
 import { useState } from 'react';
 import { predictionAPI } from '@/services/api';
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
 export default function PredictionsPage() {
   const [activeTab, setActiveTab] = useState('engagement');
@@ -24,6 +41,8 @@ export default function PredictionsPage() {
         response = await predictionAPI.predictTiming();
       } else if (activeTab === 'offer') {
         response = await predictionAPI.recommendOffer({ caption, media_type: mediaType, offer_type: offerType });
+      } else if (activeTab === 'hashtags') {
+        response = await predictionAPI.recommendHashtags({ caption, media_type: mediaType, offer_type: offerType });
       }
 
       if (response) {
@@ -68,6 +87,13 @@ export default function PredictionsPage() {
       'Referral programs leverage your existing community for organic growth through word-of-mouth marketing.'
     ];
 
+    const hashtagSets = [
+      ['#boxing', '#boxingtraining', '#fitness', '#workout', '#gym', '#motivation', '#boxingmotivation', '#fitfam', '#gymrat', '#boxinglife', '#fighter', '#mma', '#kickboxing', '#muaythai', '#combat', '#sparring', '#heavybag', '#speedbag', '#fitnessmotivation', '#boxingcoach', '#boxinggym', '#training', '#fitnessjourney', '#health', '#wellness', '#goals', '#grind', '#hustle', '#dedication', '#discipline'],
+      ['#fitness', '#fitnessmotivation', '#gymlife', '#workout', '#gym', '#training', '#fitfam', '#fitnessjourney', '#health', '#wellness', '#strength', '#cardio', '#hiit', '#fit', '#muscle', '#gains', '#bodybuilding', '#trainingday', '#legday', '#pushday', '#pullday', '#abs', '#core', '#fitnessgoals', '#motivation', '#mindset', '#goals'],
+      ['#gym', '#gymlife', '#gymrat', '#gymtim', '#fitness', '#workout', '#training', '#fitfam', '#personaltrainer', '#pt', '#fitnessmotivation', '#strength', '#cardio', '#hiit', '#crossfit', '#bodybuilding', '#fitnessjourney', '#health', '#wellness', '#workoutmotivation', '#gymmotivation', '#lifestyle', '#goals', '#progress', '#gains']
+    ];
+    const randomHashtags = hashtagSets[Math.floor(Math.random() * hashtagSets.length)];
+
     const demoData = {
       engagement: {
         predicted_likes: likes,
@@ -97,6 +123,14 @@ export default function PredictionsPage() {
         rationale: rationales[randomOfferIndex],
         expected_performance_improvement: Math.floor(100 + Math.random() * 100),
         suggested_copy: randomCaption
+      },
+      hashtags: {
+        recommended_hashtags: randomHashtags,
+        optimal_count: 25,
+        existing_hashtags: [],
+        suggested_count: 25,
+        rationale: 'Based on your boxing/fitness content, I recommend 25 hashtags. Mix of category-specific (#boxing, #fitness) and trending tags for targeted reach plus broad visibility.',
+        trending_hashtags: ['#fitnessmotivation', '#gymlife', '#workout', '#fitnessjourney', '#fitfam']
       }
     };
 
@@ -135,7 +169,7 @@ export default function PredictionsPage() {
         </div>
 
         <div className="flex space-x-4 border-b border-gray-200">
-          {['engagement', 'conversion', 'timing', 'offer'].map((tab) => (
+          {['engagement', 'conversion', 'timing', 'offer', 'hashtags'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -150,7 +184,7 @@ export default function PredictionsPage() {
           ))}
         </div>
 
-        {activeTab !== 'timing' && (
+        {activeTab !== 'timing' && activeTab !== 'hashtags' && (
           <div className="bg-white rounded-lg shadow p-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Caption</label>
@@ -213,6 +247,18 @@ export default function PredictionsPage() {
           </div>
         )}
 
+        {activeTab === 'hashtags' && (
+          <div className="bg-white rounded-lg shadow p-6">
+            <button
+              onClick={handlePredict}
+              disabled={loading}
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
+            >
+              {loading ? 'Analyzing...' : 'Get Hashtag Recommendations'}
+            </button>
+          </div>
+        )}
+
         {result && (
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Prediction Results</h2>
@@ -240,6 +286,23 @@ export default function PredictionsPage() {
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-gray-600">Confidence Score</p>
                   <p className="font-semibold text-gray-900">{(result.engagement.confidence_score * 100).toFixed(0)}%</p>
+                </div>
+                <div className="bg-white p-4 rounded-lg border">
+                  <h3 className="text-sm font-medium text-gray-700 mb-4">Engagement Breakdown</h3>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={[
+                      { name: 'Likes', value: result.engagement.predicted_likes },
+                      { name: 'Comments', value: result.engagement.predicted_comments },
+                      { name: 'Shares', value: result.engagement.predicted_shares }
+                    ]}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="value" fill="#3B82F6" />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </div>
             )}
@@ -305,6 +368,51 @@ export default function PredictionsPage() {
                     <p className="text-gray-900 italic">"{result.offer.suggested_copy}"</p>
                   </div>
                 )}
+              </div>
+            )}
+
+            {activeTab === 'hashtags' && result.hashtags && (
+              <div className="space-y-4">
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-600">Optimal Hashtag Count</p>
+                  <p className="text-2xl font-bold text-blue-600">{result.hashtags.optimal_count}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-600 mb-2">Rationale</p>
+                  <p className="text-gray-900">{result.hashtags.rationale}</p>
+                </div>
+                <div className="bg-white p-4 rounded-lg border">
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">Recommended Hashtags</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {result.hashtags.recommended_hashtags.map((tag: string, index: number) => (
+                      <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                {result.hashtags.trending_hashtags && result.hashtags.trending_hashtags.length > 0 && (
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <h3 className="text-sm font-medium text-gray-700 mb-2">Trending Hashtags</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {result.hashtags.trending_hashtags.map((tag: string, index: number) => (
+                        <span key={index} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <button
+                  onClick={() => {
+                    const hashtags = result.hashtags.recommended_hashtags.slice(0, result.hashtags.suggested_count).join(' ');
+                    navigator.clipboard.writeText(hashtags);
+                    alert('Hashtags copied to clipboard!');
+                  }}
+                  className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                >
+                  Copy Hashtags to Clipboard
+                </button>
               </div>
             )}
           </div>

@@ -19,6 +19,7 @@ from ...ml.engagement_model import EngagementPredictor
 from ...ml.conversion_model import ConversionPredictor
 from ...ml.timing_model import TimingPredictor
 from ...ml.offer_recommender import OfferRecommender
+from ...ml.hashtag_recommender import HashtagRecommender
 from datetime import datetime
 
 router = APIRouter()
@@ -28,6 +29,7 @@ engagement_predictor = EngagementPredictor()
 conversion_predictor = ConversionPredictor()
 timing_predictor = TimingPredictor()
 offer_recommender = OfferRecommender()
+hashtag_recommender = HashtagRecommender()
 
 
 @router.post("/engagement", response_model=PredictionResponse)
@@ -226,6 +228,46 @@ async def recommend_offer(
         model_version=prediction.model_version,
         created_at=prediction.created_at
     )
+
+
+@router.post("/hashtags")
+async def recommend_hashtags(
+    request: PredictionRequest,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Recommend hashtags for a post."""
+    # Prepare post data for model
+    post_data = {
+        "caption": request.caption,
+        "media_type": request.media_type,
+        "offer_type": request.offer_type,
+        "hashtags": request.hashtags
+    }
+    
+    # Get recommendation from ML model
+    recommendation = hashtag_recommender.recommend(post_data)
+    
+    prediction = Prediction(
+        user_id=current_user.id,
+        prediction_type="hashtags",
+        recommended_hashtags=recommendation["recommended_hashtags"],
+        model_version="v1.0.0",
+        model_name="hashtag_recommender"
+    )
+    
+    db.add(prediction)
+    await db.commit()
+    await db.refresh(prediction)
+    
+    return {
+        "recommended_hashtags": recommendation["recommended_hashtags"],
+        "optimal_count": recommendation["optimal_count"],
+        "existing_hashtags": recommendation["existing_hashtags"],
+        "suggested_count": recommendation["suggested_count"],
+        "rationale": recommendation["rationale"],
+        "trending_hashtags": recommendation["trending_hashtags"]
+    }
 
 
 @router.get("/history", response_model=list[PredictionResponse])

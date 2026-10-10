@@ -51,15 +51,18 @@ export const instagramAPI = {
 export const predictionAPI = {
   predictEngagement: (data: { caption?: string; media_type?: string; offer_type?: string; hashtags?: string[] }) =>
     api.post('/api/v1/predict/engagement', data),
-  
+
   predictConversion: (data: { caption?: string; media_type?: string; offer_type?: string; hashtags?: string[] }) =>
     api.post('/api/v1/predict/conversion', data),
-  
+
   predictTiming: () => api.post('/api/v1/predict/timing'),
-  
+
   recommendOffer: (data: { caption?: string; media_type?: string; offer_type?: string; hashtags?: string[] }) =>
     api.post('/api/v1/predict/offer', data),
-  
+
+  recommendHashtags: (data: { caption?: string; media_type?: string; offer_type?: string; hashtags?: string[] }) =>
+    api.post('/api/v1/predict/hashtags', data),
+
   getHistory: () => api.get('/api/v1/predict/history'),
 };
 
