@@ -77,12 +77,18 @@ export default function PredictionsPage() {
   };
 
   const handleQuickDemo = () => {
+    setLoading(true);
     setDemoMode(true);
     // Set demo caption based on boxing gym content
     setCaption('🥊 New boxing class starting this week! Join our elite training program and take your skills to the next level. DM to reserve your spot! #Boxing #MMA #Fitness');
     setMediaType('video');
     setOfferType('free_trial');
-    generateDemoPrediction();
+
+    // Simulate brief loading for effect
+    setTimeout(() => {
+      generateDemoPrediction();
+      setLoading(false);
+    }, 500);
   };
 
   return (
