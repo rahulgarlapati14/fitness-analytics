@@ -7,8 +7,8 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // Skip auth for now - go directly to analytics
-    router.push('/analytics');
+    // Skip auth for now - go directly to predictions
+    router.push('/predictions');
   }, [router]);
 
   return (
