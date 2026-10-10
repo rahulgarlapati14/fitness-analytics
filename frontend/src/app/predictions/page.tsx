@@ -25,7 +25,10 @@ export default function PredictionsPage() {
       } else if (activeTab === 'offer') {
         response = await predictionAPI.recommendOffer({ caption, media_type: mediaType, offer_type: offerType });
       }
-      setResult(response.data);
+
+      if (response) {
+        setResult(response.data);
+      }
     } catch (error: any) {
       console.error('Prediction failed:', error);
       alert('Prediction failed. Please try again.');

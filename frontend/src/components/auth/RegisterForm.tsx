@@ -24,12 +24,13 @@ export default function RegisterForm() {
 
     try {
       await authAPI.register(formData);
-      
+
       // Auto-login after registration
       const loginResponse = await authAPI.login(formData.email, formData.password);
-      const { access_token } = loginResponse.data;
-      
-      localStorage.setItem('access_token', access_token);
+      if (loginResponse) {
+        const { access_token } = loginResponse.data;
+
+        localStorage.setItem('access_token', access_token);
       
       setAuth(
         {
@@ -43,8 +44,9 @@ export default function RegisterForm() {
         },
         access_token
       );
-      
+
       router.push('/dashboard');
+      }
     } catch (err: any) {
       const errorMessage = err.response?.data?.detail;
       setError(typeof errorMessage === 'string' ? errorMessage : 'Registration failed');

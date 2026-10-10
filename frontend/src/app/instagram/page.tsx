@@ -17,7 +17,9 @@ export default function InstagramPage() {
   const loadAccounts = async () => {
     try {
       const response = await instagramAPI.getAccounts();
-      setAccounts(response.data);
+      if (response) {
+        setAccounts(response.data);
+      }
     } catch (error) {
       console.error('Failed to load accounts:', error);
       setAccounts([]);

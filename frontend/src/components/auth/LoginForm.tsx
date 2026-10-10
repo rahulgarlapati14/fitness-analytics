@@ -20,26 +20,28 @@ export default function LoginForm() {
 
     try {
       const response = await authAPI.login(email, password);
-      const { access_token } = response.data;
-      
-      // Store token
-      localStorage.setItem('access_token', access_token);
-      
-      // For now, set a dummy user (in real app, fetch user profile)
-      setAuth(
-        {
-          id: 1,
-          email,
-          gym_name: 'Demo Gym',
-          full_name: 'Demo User',
-          is_active: true,
-          is_verified: true,
-          created_at: new Date().toISOString(),
-        },
-        access_token
-      );
-      
-      router.push('/dashboard');
+      if (response) {
+        const { access_token } = response.data;
+
+        // Store token
+        localStorage.setItem('access_token', access_token);
+
+        // For now, set a dummy user (in real app, fetch user profile)
+        setAuth(
+          {
+            id: 1,
+            email,
+            gym_name: 'Demo Gym',
+            full_name: 'Demo User',
+            is_active: true,
+            is_verified: true,
+            created_at: new Date().toISOString(),
+          },
+          access_token
+        );
+
+        router.push('/dashboard');
+      }
     } catch (err: any) {
       const errorMessage = err.response?.data?.detail;
       setError(typeof errorMessage === 'string' ? errorMessage : 'Login failed');
