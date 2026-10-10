@@ -41,12 +41,7 @@ export default function InstagramPage() {
   };
 
   const handleConnect = async () => {
-    try {
-      const response = await instagramAPI.getAuthUrl();
-      window.location.href = response.data.auth_url;
-    } catch (error) {
-      console.error('Failed to get auth URL:', error);
-    }
+    alert('Instagram integration requires API credentials from Meta Developer Portal. Please configure INSTAGRAM_CLIENT_ID and INSTAGRAM_CLIENT_SECRET in the backend .env file to enable this feature.');
   };
 
   return (
@@ -59,9 +54,10 @@ export default function InstagramPage() {
           </div>
           <button
             onClick={handleConnect}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            className="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold cursor-not-allowed"
+            title="Requires Instagram API credentials"
           >
-            + Connect Account
+            + Connect Account (Not Configured)
           </button>
         </div>
 
@@ -73,12 +69,15 @@ export default function InstagramPage() {
           <div className="bg-white rounded-lg shadow p-12 text-center">
             <div className="text-6xl mb-4">📱</div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">No Instagram Accounts Connected</h3>
-            <p className="text-gray-600 mb-6">Connect your Instagram account to start analyzing your posts</p>
+            <p className="text-gray-600 mb-6">
+              Instagram integration requires API credentials from Meta Developer Portal. 
+              Please configure INSTAGRAM_CLIENT_ID and INSTAGRAM_CLIENT_SECRET in the backend .env file.
+            </p>
             <button
               onClick={handleConnect}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold cursor-not-allowed"
             >
-              Connect Instagram
+              Connect Instagram (Not Configured)
             </button>
           </div>
         ) : (

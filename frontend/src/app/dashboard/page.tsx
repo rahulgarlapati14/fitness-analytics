@@ -83,23 +83,23 @@ export default function DashboardPage() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <button className="bg-blue-600 text-white p-6 rounded-lg hover:bg-blue-700 transition-colors">
+          <a href="/predictions" className="bg-blue-600 text-white p-6 rounded-lg hover:bg-blue-700 transition-colors block cursor-pointer">
             <div className="text-2xl mb-2">🎯</div>
             <p className="font-semibold">New Prediction</p>
             <p className="text-sm opacity-90">Predict post performance</p>
-          </button>
+          </a>
 
-          <button className="bg-green-600 text-white p-6 rounded-lg hover:bg-green-700 transition-colors">
+          <a href="/instagram" className="bg-gray-400 text-white p-6 rounded-lg cursor-not-allowed block">
             <div className="text-2xl mb-2">📱</div>
             <p className="font-semibold">Sync Instagram</p>
-            <p className="text-sm opacity-90">Update your posts</p>
-          </button>
+            <p className="text-sm opacity-90">Requires API credentials</p>
+          </a>
 
-          <button className="bg-purple-600 text-white p-6 rounded-lg hover:bg-purple-700 transition-colors">
+          <a href="/predictions" className="bg-purple-600 text-white p-6 rounded-lg hover:bg-purple-700 transition-colors block cursor-pointer">
             <div className="text-2xl mb-2">🎁</div>
             <p className="font-semibold">Get Offer Ideas</p>
             <p className="text-sm opacity-90">AI-generated offers</p>
-          </button>
+          </a>
         </div>
       </div>
     </DashboardLayout>
