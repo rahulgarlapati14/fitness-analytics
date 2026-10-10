@@ -89,10 +89,10 @@ export default function DashboardPage() {
             <p className="text-sm opacity-90">Predict post performance</p>
           </a>
 
-          <a href="/instagram" className="bg-gray-400 text-white p-6 rounded-lg cursor-not-allowed block">
+          <a href="/instagram" className="bg-green-600 text-white p-6 rounded-lg hover:bg-green-700 transition-colors block cursor-pointer">
             <div className="text-2xl mb-2">📱</div>
             <p className="font-semibold">Sync Instagram</p>
-            <p className="text-sm opacity-90">Requires API credentials</p>
+            <p className="text-sm opacity-90">Update your posts</p>
           </a>
 
           <a href="/predictions" className="bg-purple-600 text-white p-6 rounded-lg hover:bg-purple-700 transition-colors block cursor-pointer">

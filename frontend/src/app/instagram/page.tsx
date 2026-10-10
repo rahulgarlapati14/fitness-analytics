@@ -41,7 +41,18 @@ export default function InstagramPage() {
   };
 
   const handleConnect = async () => {
-    alert('Instagram integration requires API credentials from Meta Developer Portal. Please configure INSTAGRAM_CLIENT_ID and INSTAGRAM_CLIENT_SECRET in the backend .env file to enable this feature.');
+    try {
+      const response = await instagramAPI.getAuthUrl();
+      window.location.href = response.data.auth_url;
+    } catch (error: any) {
+      console.error('Failed to get auth URL:', error);
+      const errorMessage = error.response?.data?.detail;
+      if (errorMessage && typeof errorMessage === 'string') {
+        alert(errorMessage);
+      } else {
+        alert('Instagram integration requires API credentials. Please check INSTAGRAM_SETUP.md for instructions on setting up Instagram Basic Display API.');
+      }
+    }
   };
 
   return (
@@ -54,10 +65,9 @@ export default function InstagramPage() {
           </div>
           <button
             onClick={handleConnect}
-            className="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold cursor-not-allowed"
-            title="Requires Instagram API credentials"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
-            + Connect Account (Not Configured)
+            + Connect Instagram Account
           </button>
         </div>
 
@@ -70,14 +80,14 @@ export default function InstagramPage() {
             <div className="text-6xl mb-4">📱</div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">No Instagram Accounts Connected</h3>
             <p className="text-gray-600 mb-6">
-              Instagram integration requires API credentials from Meta Developer Portal. 
-              Please configure INSTAGRAM_CLIENT_ID and INSTAGRAM_CLIENT_SECRET in the backend .env file.
+              Connect your Instagram account to start analyzing your posts. 
+              See <a href="/INSTAGRAM_SETUP.md" className="text-blue-600 hover:underline" target="_blank">INSTAGRAM_SETUP.md</a> for setup instructions.
             </p>
             <button
               onClick={handleConnect}
-              className="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold cursor-not-allowed"
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
             >
-              Connect Instagram (Not Configured)
+              Connect Instagram Account
             </button>
           </div>
         ) : (
