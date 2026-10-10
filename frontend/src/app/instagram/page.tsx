@@ -20,6 +20,7 @@ export default function InstagramPage() {
       setAccounts(response.data);
     } catch (error) {
       console.error('Failed to load accounts:', error);
+      setAccounts([]);
     } finally {
       setLoading(false);
     }

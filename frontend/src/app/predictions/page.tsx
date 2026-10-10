@@ -26,8 +26,9 @@ export default function PredictionsPage() {
         response = await predictionAPI.recommendOffer({ caption, media_type: mediaType, offer_type: offerType });
       }
       setResult(response.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Prediction failed:', error);
+      alert('Prediction failed. Please try again.');
     } finally {
       setLoading(false);
     }

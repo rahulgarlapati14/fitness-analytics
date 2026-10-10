@@ -46,7 +46,8 @@ export default function RegisterForm() {
       
       router.push('/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Registration failed');
+      const errorMessage = err.response?.data?.detail;
+      setError(typeof errorMessage === 'string' ? errorMessage : 'Registration failed');
     } finally {
       setLoading(false);
     }

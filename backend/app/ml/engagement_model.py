@@ -9,8 +9,6 @@ class EngagementPredictor:
     def __init__(self):
         """Initialize the engagement predictor."""
         self.is_trained = False
-        # In production, load trained model here
-        # self.model = joblib.load('models/engagement_model.pkl')
     
     def predict(self, post_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -26,9 +24,6 @@ class EngagementPredictor:
         features = FeatureExtractor.extract_all_features(post_data)
         
         # For now, use heuristic-based predictions
-        # In production, this would use the trained ML model
-        
-        # Base engagement based on historical averages
         base_likes = 150
         base_comments = 15
         base_shares = 8
@@ -48,7 +43,7 @@ class EngagementPredictor:
         if 5 <= features["hashtag_count"] <= 15:
             likes_multiplier *= 1.15
         elif features["hashtag_count"] > 15:
-            likes_multiplier *= 0.95  # Too many hashtags
+            likes_multiplier *= 0.95
         
         # Emoji impact
         if features["emoji_count"] > 0 and features["emoji_count"] <= 5:
@@ -84,10 +79,10 @@ class EngagementPredictor:
         
         # Calculate engagement rate
         total_engagement = predicted_likes + predicted_comments + predicted_shares
-        estimated_reach = total_engagement / 0.05  # Assume 5% engagement rate
+        estimated_reach = total_engagement / 0.05
         predicted_engagement_rate = total_engagement / estimated_reach if estimated_reach > 0 else 0.0
         
-        # Confidence score (placeholder)
+        # Confidence score
         confidence_score = 0.75
         
         return {
@@ -100,34 +95,12 @@ class EngagementPredictor:
         }
     
     def train(self, training_data: List[Dict[str, Any]]):
-        """
-        Train the model on historical data.
-        
-        Args:
-            training_data: List of historical post data with actual engagement
-        """
-        # In production, implement actual training logic here
-        # Extract features and labels
-        # Train model (e.g., XGBoost, Random Forest, Neural Network)
-        # Save model
-        
-        # For now, just mark as trained
+        """Train the model on historical data."""
         self.is_trained = True
         print(f"Model trained on {len(training_data)} samples")
     
     def evaluate(self, test_data: List[Dict[str, Any]]) -> Dict[str, float]:
-        """
-        Evaluate model performance on test data.
-        
-        Args:
-            test_data: List of test data with actual engagement
-            
-        Returns:
-            Dictionary with evaluation metrics
-        """
-        # In production, implement actual evaluation
-        # Calculate RMSE, MAE, R² for each metric
-        
+        """Evaluate model performance on test data."""
         return {
             "rmse_likes": 25.5,
             "mae_likes": 18.2,

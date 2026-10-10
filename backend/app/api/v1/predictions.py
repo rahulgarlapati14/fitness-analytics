@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from ..core.database import get_db
-from ..models.user import User
-from ..models.instagram import InstagramAccount
-from ..models.post import Post
-from ..models.prediction import Prediction
-from ..schemas.prediction import (
+from ...core.database import get_db
+from ...models.user import User
+from ...models.instagram import InstagramAccount
+from ...models.post import Post
+from ...models.prediction import Prediction
+from ...schemas.prediction import (
     PredictionRequest,
     PredictionResponse,
     EngagementPrediction,
@@ -14,11 +14,11 @@ from ..schemas.prediction import (
     TimingPrediction,
     OfferRecommendation
 )
-from ..api.deps import get_current_user
-from ..ml.engagement_model import EngagementPredictor
-from ..ml.conversion_model import ConversionPredictor
-from ..ml.timing_model import TimingPredictor
-from ..ml.offer_recommender import OfferRecommender
+from ...api.deps import get_current_user
+from ...ml.engagement_model import EngagementPredictor
+from ...ml.conversion_model import ConversionPredictor
+from ...ml.timing_model import TimingPredictor
+from ...ml.offer_recommender import OfferRecommender
 from datetime import datetime
 
 router = APIRouter()

@@ -23,7 +23,7 @@ class ConversionPredictor:
         # Extract features
         features = FeatureExtractor.extract_all_features(post_data)
         
-        # Base conversion rate (typical for fitness industry: 1-3%)
+        # Base conversion rate
         base_conversion_rate = 0.02
         
         # Adjust based on features
@@ -76,7 +76,7 @@ class ConversionPredictor:
         return {
             "predicted_conversions": round(predicted_conversions, 2),
             "conversion_rate": round(predicted_conversion_rate, 4),
-            "probability": min(predicted_conversion_rate * 10, 0.9),  # Probability score
+            "probability": min(predicted_conversion_rate * 10, 0.9),
             "confidence_score": confidence_score,
             "estimated_reach": round(estimated_reach, 0)
         }

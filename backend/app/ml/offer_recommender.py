@@ -9,7 +9,6 @@ class OfferRecommender:
         """Initialize the offer recommender."""
         self.is_trained = False
         
-        # Offer type templates
         self.offer_templates = {
             "free_trial": {
                 "rationale": "Free trials typically have the highest conversion rate for fitness businesses",

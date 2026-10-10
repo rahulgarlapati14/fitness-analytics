@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from datetime import datetime, timedelta
-from ..core.database import get_db
-from ..models.user import User
-from ..models.instagram import InstagramAccount
-from ..models.post import Post
-from ..schemas.instagram import InstagramAccount, InstagramAccountCreate
-from ..api.deps import get_current_user
-from ..services.instagram_service import InstagramService, InstagramOAuth
+from ...core.database import get_db
+from ...models.user import User
+from ...models.instagram import InstagramAccount
+from ...models.post import Post
+from ...schemas.instagram import InstagramAccount, InstagramAccountCreate
+from ...api.deps import get_current_user
+from ...services.instagram_service import InstagramService, InstagramOAuth
 from typing import List
 
 router = APIRouter()
