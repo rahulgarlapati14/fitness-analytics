@@ -35,7 +35,7 @@ export const authAPI = {
     api.post('/api/v1/auth/register', data),
   
   login: (email: string, password: string) =>
-    api.post('/api/v1/auth/login', { username: email, password }),
+    api.post('/api/v1/auth/login/json', { email, password }),
 };
 
 export const instagramAPI = {
