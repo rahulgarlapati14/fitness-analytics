@@ -6,12 +6,19 @@ from .config import settings
 async_database_url = settings.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
 
 # Create async database engine
-engine = create_async_engine(
-    async_database_url,
-    pool_size=settings.DATABASE_POOL_SIZE,
-    max_overflow=settings.DATABASE_MAX_OVERFLOW,
-    echo=settings.DEBUG
-)
+# SQLite doesn't support pooling, so conditionally add pool parameters
+if "sqlite" in async_database_url:
+    engine = create_async_engine(
+        async_database_url,
+        echo=settings.DEBUG
+    )
+else:
+    engine = create_async_engine(
+        async_database_url,
+        pool_size=settings.DATABASE_POOL_SIZE,
+        max_overflow=settings.DATABASE_MAX_OVERFLOW,
+        echo=settings.DEBUG
+    )
 
 # Create async session factory
 AsyncSessionLocal = async_sessionmaker(
