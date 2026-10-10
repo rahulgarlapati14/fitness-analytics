@@ -1,0 +1,51 @@
+from pydantic import BaseModel
+from datetime import datetime
+from typing import Optional, List
+
+
+class PredictionRequest(BaseModel):
+    caption: Optional[str] = None
+    media_type: Optional[str] = "image"
+    offer_type: Optional[str] = None
+    hashtags: Optional[List[str]] = None
+
+
+class EngagementPrediction(BaseModel):
+    predicted_likes: float
+    predicted_comments: float
+    predicted_shares: float
+    predicted_engagement_rate: float
+    confidence_score: float
+
+
+class ConversionPrediction(BaseModel):
+    predicted_conversions: float
+    probability: float
+    confidence_score: float
+
+
+class TimingPrediction(BaseModel):
+    optimal_posting_times: List[dict]
+    best_day: str
+    best_hour: int
+
+
+class OfferRecommendation(BaseModel):
+    recommended_offer_type: str
+    rationale: str
+    expected_performance_improvement: float
+    suggested_copy: Optional[str] = None
+
+
+class PredictionResponse(BaseModel):
+    id: int
+    prediction_type: str
+    engagement: Optional[EngagementPrediction] = None
+    conversion: Optional[ConversionPrediction] = None
+    timing: Optional[TimingPrediction] = None
+    offer: Optional[OfferRecommendation] = None
+    model_version: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
