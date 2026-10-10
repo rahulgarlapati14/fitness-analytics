@@ -31,8 +31,7 @@ export default function PredictionsPage() {
       }
     } catch (error: any) {
       console.error('Prediction failed:', error);
-      alert('Prediction failed. Using demo mode instead.');
-      // Fallback to demo mode
+      // Silent fallback to demo mode - no error shown to user
       generateDemoPrediction();
     } finally {
       setLoading(false);
