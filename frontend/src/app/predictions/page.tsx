@@ -40,36 +40,64 @@ export default function PredictionsPage() {
   };
 
   const generateDemoPrediction = () => {
-    // Demo prediction based on boxing gym profile
+    // Randomize demo data for variety
+    const randomMultiplier = 0.8 + Math.random() * 0.4; // 0.8 to 1.2
+    const likes = Math.floor(2000 * randomMultiplier);
+    const comments = Math.floor(150 * randomMultiplier);
+    const shares = Math.floor(80 * randomMultiplier);
+
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const randomDay = days[Math.floor(Math.random() * days.length)];
+    const randomHour = Math.floor(Math.random() * 12) + 9; // 9 AM to 8 PM
+
+    const offers = ['free_trial', 'discount', 'bundle', 'referral'];
+    const offerTypes = ['Free Trial', 'Discount', 'Bundle Deal', 'Referral Program'];
+    const randomOfferIndex = Math.floor(Math.random() * offers.length);
+
+    const captions = [
+      '🥊 Ready to transform? Try our FREE trial week! Experience world-class boxing training, expert coaching, and an unbeatable community atmosphere. No commitment required. DM us "FREE TRIAL" to claim your spot! #Boxing #Fitness #Trial',
+      '💪 New class starting Monday! Join our elite boxing program and train like a champion. Limited spots available - DM to reserve yours now! #BoxingTraining #FitnessGoals',
+      '🏆 Train with the best! Our boxing gym offers world-class coaching, state-of-the-art equipment, and a supportive community. Sign up today and get your first week FREE! #BoxingLife #GymMotivation',
+      '🥇 Transform your fitness journey! Our boxing classes combine strength training, cardio, and technique work. Perfect for all skill levels. Drop in this week! #Boxing #MMA #Workout'
+    ];
+    const randomCaption = captions[Math.floor(Math.random() * captions.length)];
+
+    const rationales = [
+      'Boxing gyms benefit most from free trial offers as they let potential members experience the training intensity and community atmosphere before committing.',
+      'Discount offers create urgency and attract price-sensitive customers who might otherwise hesitate to join.',
+      'Bundle deals increase perceived value and encourage higher-tier memberships by combining multiple services.',
+      'Referral programs leverage your existing community for organic growth through word-of-mouth marketing.'
+    ];
+
     const demoData = {
       engagement: {
-        predicted_likes: 2850,
-        predicted_comments: 220,
-        predicted_shares: 95,
-        predicted_engagement_rate: 0.085,
-        confidence_score: 0.82
+        predicted_likes: likes,
+        predicted_comments: comments,
+        predicted_shares: shares,
+        predicted_engagement_rate: 0.08 + Math.random() * 0.02,
+        confidence_score: 0.75 + Math.random() * 0.15
       },
       conversion: {
-        predicted_conversions: 18,
-        probability: 0.32,
-        confidence_score: 0.78
+        predicted_conversions: Math.floor(15 * randomMultiplier),
+        probability: 0.25 + Math.random() * 0.15,
+        confidence_score: 0.70 + Math.random() * 0.15
       },
       timing: {
         optimal_posting_times: [
-          { day: 'Friday', hour: 18, score: 0.95 },
-          { day: 'Saturday', hour: 10, score: 0.92 },
-          { day: 'Thursday', hour: 19, score: 0.88 },
-          { day: 'Wednesday', hour: 18, score: 0.85 },
-          { day: 'Sunday', hour: 11, score: 0.82 }
+          { day: randomDay, hour: randomHour, score: 0.95 },
+          { day: days[(days.indexOf(randomDay) + 1) % 7], hour: randomHour, score: 0.90 },
+          { day: days[(days.indexOf(randomDay) + 2) % 7], hour: randomHour + 1, score: 0.85 },
+          { day: days[(days.indexOf(randomDay) + 3) % 7], hour: randomHour, score: 0.80 },
+          { day: days[(days.indexOf(randomDay) + 4) % 7], hour: randomHour - 1, score: 0.75 }
         ],
-        best_day: 'Friday',
-        best_hour: 18
+        best_day: randomDay,
+        best_hour: randomHour
       },
       offer: {
-        recommended_offer_type: 'free_trial',
-        rationale: 'Boxing gyms benefit most from free trial offers as they let potential members experience the training intensity and community atmosphere before committing.',
-        expected_performance_improvement: 150,
-        suggested_copy: '🥊 Ready to transform? Try our FREE trial week! Experience world-class boxing training, expert coaching, and an unbeatable community atmosphere. No commitment required. DM us "FREE TRIAL" to claim your spot! #Boxing #Fitness #Trial'
+        recommended_offer_type: offers[randomOfferIndex],
+        rationale: rationales[randomOfferIndex],
+        expected_performance_improvement: Math.floor(100 + Math.random() * 100),
+        suggested_copy: randomCaption
       }
     };
 
@@ -88,7 +116,7 @@ export default function PredictionsPage() {
     setTimeout(() => {
       generateDemoPrediction();
       setLoading(false);
-    }, 500);
+    }, 800);
   };
 
   return (
