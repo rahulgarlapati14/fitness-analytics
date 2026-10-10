@@ -169,10 +169,23 @@ See `.env.example` for required environment variables:
 - `DATABASE_URL` - PostgreSQL connection string
 - `REDIS_URL` - Redis connection string
 - `SECRET_KEY` - JWT secret key
-- `INSTAGRAM_CLIENT_ID` - Instagram API client ID
-- `INSTAGRAM_CLIENT_SECRET` - Instagram API client secret
+- `INSTAGRAM_CLIENT_ID` - Instagram API client ID (see INSTAGRAM_SETUP.md)
+- `INSTAGRAM_CLIENT_SECRET` - Instagram API client secret (see INSTAGRAM_SETUP.md)
+- `INSTAGRAM_REDIRECT_URI` - OAuth callback URL
 - `OPENAI_API_KEY` - OpenAI API key (for LLM features)
 - `ANTHROPIC_API_KEY` - Anthropic API key (for LLM features)
+
+### Instagram Integration Setup
+
+To enable Instagram SSO and data syncing:
+
+1. **Follow the setup guide**: See [INSTAGRAM_SETUP.md](INSTAGRAM_SETUP.md) for detailed instructions
+2. **Create Meta Developer app**: Go to [developers.facebook.com](https://developers.facebook.com/)
+3. **Add Instagram Basic Display**: Configure OAuth redirect URIs
+4. **Get credentials**: Copy App ID and App Secret
+5. **Configure environment**: Add to `backend/.env`
+
+**Important**: For production deployment, the app must be submitted for Meta review (takes 1-2 weeks).
 
 ## Development
 
