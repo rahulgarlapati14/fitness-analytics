@@ -228,6 +228,23 @@ cd frontend
 npm run lint
 ```
 
+## Deployment
+
+**Important:** GitHub Pages won't work for this application because it requires a backend server and database.
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
+**Recommended Options:**
+- **Vercel + Render** (Recommended for MVP) - Free tiers available
+- **Railway.app** - All-in-one platform
+- **Vercel + Supabase** - Scalable option
+
+**Quick Summary:**
+- Frontend (Next.js): Deploy to Vercel
+- Backend (FastAPI): Deploy to Render
+- Database: Use Render's built-in PostgreSQL
+- Cost: $0/month for MVP (free tiers)
+
 ## Roadmap
 
 - [x] Project setup and infrastructure
@@ -236,6 +253,7 @@ npm run lint
 - [x] Instagram Graph API integration
 - [x] ML model development
 - [x] Frontend dashboard
+- [x] Deployment documentation
 - [ ] Testing and optimization
 - [ ] Cloud deployment
 - [ ] Monitoring and logging
@@ -253,8 +271,13 @@ npm run lint
 
 🚧 **In Progress:**
 - Testing and optimization
-- Cloud deployment setup
+- Actual cloud deployment
 - Monitoring and logging infrastructure
+
+📝 **Documentation Complete:**
+- Deployment guide with multiple platform options
+- Instagram SSO setup instructions
+- API comparison (Basic Display vs Marketing API)
 
 ## Contributing
 
