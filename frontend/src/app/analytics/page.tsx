@@ -1,11 +1,9 @@
 'use client';
 
-import DashboardLayout from '@/components/layout/DashboardLayout';
-
 export default function AnalyticsPage() {
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-7xl mx-auto space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
           <p className="text-gray-600 mt-2">Detailed performance metrics and trends</p>
@@ -81,6 +79,6 @@ export default function AnalyticsPage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </div>
   );
 }
