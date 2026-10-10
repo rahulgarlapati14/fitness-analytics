@@ -36,14 +36,15 @@ env/
 *.sqlite
 *.sqlite3
 
-# ML models
-models/
+# ML models (artifact files, not source code)
 *.pkl
 *.h5
 *.pt
 *.pth
 *.onnx
 *.joblib
+saved_model/
+checkpoints/
 
 # IDE
 .vscode/
