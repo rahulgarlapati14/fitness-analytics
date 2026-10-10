@@ -28,6 +28,8 @@ export default function PredictionsPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [demoMode, setDemoMode] = useState(false);
+  const [lastInputHash, setLastInputHash] = useState('');
+  const [cachedPrediction, setCachedPrediction] = useState<any>(null);
 
   const handlePredict = async () => {
     setLoading(true);
@@ -58,19 +60,32 @@ export default function PredictionsPage() {
   };
 
   const generateDemoPrediction = () => {
-    // Randomize demo data for variety
-    const randomMultiplier = 0.8 + Math.random() * 0.4; // 0.8 to 1.2
+    // Create a hash of the input to make predictions consistent
+    const inputString = `${caption}-${mediaType}-${offerType}-${activeTab}`;
+    const inputHash = inputString.split('').reduce((a, b) => {
+      a = ((a << 5) - a) + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+
+    // If same input, return cached prediction
+    if (inputHash === lastInputHash && cachedPrediction) {
+      setResult(cachedPrediction);
+      return;
+    }
+
+    // Use hash as seed for pseudo-random values (consistent for same input)
+    const seed = Math.abs(inputHash);
+    const randomMultiplier = 0.8 + (seed % 40) / 100; // 0.8 to 1.2 based on hash
     const likes = Math.floor(2000 * randomMultiplier);
     const comments = Math.floor(150 * randomMultiplier);
     const shares = Math.floor(80 * randomMultiplier);
 
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const randomDay = days[Math.floor(Math.random() * days.length)];
-    const randomHour = Math.floor(Math.random() * 12) + 9; // 9 AM to 8 PM
+    const randomDay = days[seed % 7];
+    const randomHour = 9 + (seed % 12); // 9 AM to 8 PM
 
     const offers = ['free_trial', 'discount', 'bundle', 'referral'];
-    const offerTypes = ['Free Trial', 'Discount', 'Bundle Deal', 'Referral Program'];
-    const randomOfferIndex = Math.floor(Math.random() * offers.length);
+    const randomOfferIndex = seed % 4;
 
     const captions = [
       '🥊 Ready to transform? Try our FREE trial week! Experience world-class boxing training, expert coaching, and an unbeatable community atmosphere. No commitment required. DM us "FREE TRIAL" to claim your spot! #Boxing #Fitness #Trial',
@@ -78,7 +93,7 @@ export default function PredictionsPage() {
       '🏆 Train with the best! Our boxing gym offers world-class coaching, state-of-the-art equipment, and a supportive community. Sign up today and get your first week FREE! #BoxingLife #GymMotivation',
       '🥇 Transform your fitness journey! Our boxing classes combine strength training, cardio, and technique work. Perfect for all skill levels. Drop in this week! #Boxing #MMA #Workout'
     ];
-    const randomCaption = captions[Math.floor(Math.random() * captions.length)];
+    const randomCaption = captions[seed % captions.length];
 
     const rationales = [
       'Boxing gyms benefit most from free trial offers as they let potential members experience the training intensity and community atmosphere before committing.',
@@ -92,20 +107,20 @@ export default function PredictionsPage() {
       ['#fitness', '#fitnessmotivation', '#gymlife', '#workout', '#gym', '#training', '#fitfam', '#fitnessjourney', '#health', '#wellness', '#strength', '#cardio', '#hiit', '#fit', '#muscle', '#gains', '#bodybuilding', '#trainingday', '#legday', '#pushday', '#pullday', '#abs', '#core', '#fitnessgoals', '#motivation', '#mindset', '#goals'],
       ['#gym', '#gymlife', '#gymrat', '#gymtim', '#fitness', '#workout', '#training', '#fitfam', '#personaltrainer', '#pt', '#fitnessmotivation', '#strength', '#cardio', '#hiit', '#crossfit', '#bodybuilding', '#fitnessjourney', '#health', '#wellness', '#workoutmotivation', '#gymmotivation', '#lifestyle', '#goals', '#progress', '#gains']
     ];
-    const randomHashtags = hashtagSets[Math.floor(Math.random() * hashtagSets.length)];
+    const randomHashtags = hashtagSets[seed % hashtagSets.length];
 
     const demoData = {
       engagement: {
         predicted_likes: likes,
         predicted_comments: comments,
         predicted_shares: shares,
-        predicted_engagement_rate: 0.08 + Math.random() * 0.02,
-        confidence_score: 0.75 + Math.random() * 0.15
+        predicted_engagement_rate: 0.08 + (seed % 20) / 1000,
+        confidence_score: 0.75 + (seed % 15) / 100
       },
       conversion: {
         predicted_conversions: Math.floor(15 * randomMultiplier),
-        probability: 0.25 + Math.random() * 0.15,
-        confidence_score: 0.70 + Math.random() * 0.15
+        probability: 0.25 + (seed % 15) / 100,
+        confidence_score: 0.70 + (seed % 15) / 100
       },
       timing: {
         optimal_posting_times: [
@@ -121,7 +136,7 @@ export default function PredictionsPage() {
       offer: {
         recommended_offer_type: offers[randomOfferIndex],
         rationale: rationales[randomOfferIndex],
-        expected_performance_improvement: Math.floor(100 + Math.random() * 100),
+        expected_performance_improvement: 100 + (seed % 100),
         suggested_copy: randomCaption
       },
       hashtags: {
@@ -134,6 +149,9 @@ export default function PredictionsPage() {
       }
     };
 
+    // Cache the prediction
+    setLastInputHash(inputHash);
+    setCachedPrediction(demoData);
     setResult(demoData);
   };
 
