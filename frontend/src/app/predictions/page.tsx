@@ -386,6 +386,12 @@ export default function PredictionsPage() {
                     <p className="text-gray-900 italic">"{result.offer.suggested_copy}"</p>
                   </div>
                 )}
+                <a
+                  href="/campaigns/new"
+                  className="block w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
+                >
+                  Create Campaign with Multiple Offers
+                </a>
               </div>
             )}
 

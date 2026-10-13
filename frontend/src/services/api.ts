@@ -64,6 +64,20 @@ export const predictionAPI = {
     api.post('/api/v1/predict/hashtags', data),
 
   getHistory: () => api.get('/api/v1/predict/history'),
+
+  getOfferOptions: (data: { campaign_name?: string; caption?: string; media_type?: string; offer_type?: string; hashtags?: string[] }) =>
+    api.post('/api/v1/predict/offer-options', data),
+};
+
+export const campaignAPI = {
+  createCampaign: (data: { campaign_name: string; selected_offer_type: string; offer_details: any; suggested_copy: string }) =>
+    api.post('/api/v1/campaigns/create', data),
+
+  listCampaigns: () => api.get('/api/v1/campaigns/list'),
+
+  getCampaign: (slug: string) => api.get(`/api/v1/campaigns/${slug}`),
+
+  deleteCampaign: (slug: string) => api.delete(`/api/v1/campaigns/${slug}`),
 };
 
 export default api;

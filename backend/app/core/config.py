@@ -44,6 +44,11 @@ class Settings(BaseSettings):
     # CORS
     CORS_ORIGINS: list = ["http://localhost:3000", "http://localhost:8000"]
 
+    # Subscription Tier Pricing
+    DAY_PASS_PRICE: float = 15.0
+    MONTHLY_PASS_PRICE: float = 50.0
+    THREE_MONTH_PASS_PRICE: float = 120.0
+
     model_config = {
         "env_file": ".env",
         "case_sensitive": True

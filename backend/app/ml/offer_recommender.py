@@ -1,5 +1,6 @@
 from typing import Dict, Any, List
 import random
+from ..core.config import settings
 
 
 class OfferRecommender:
@@ -125,7 +126,110 @@ class OfferRecommender:
             "confidence_score": round(score, 2),
             "all_scores": offer_scores
         }
-    
+
+    def recommend_multiple(self, post_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        Recommend multiple offer options with multi-tier revenue predictions.
+
+        Args:
+            post_data: Dictionary containing post information
+
+        Returns:
+            List of 3 offer options with detailed predictions for each subscription tier
+        """
+        from .feature_engineering import FeatureExtractor
+
+        # Extract features
+        features = FeatureExtractor.extract_all_features(post_data)
+
+        # Score each offer type
+        offer_scores = {}
+
+        # Free trial score
+        free_trial_score = 0.8
+        if features["media_type"] == "video":
+            free_trial_score += 0.15
+        if features["has_offer_mention"]:
+            free_trial_score += 0.1
+        offer_scores["free_trial"] = free_trial_score
+
+        # Discount score
+        discount_score = 0.75
+        if features["is_weekend"]:
+            discount_score += 0.15
+        if features["is_evening"]:
+            discount_score += 0.1
+        if features["emoji_count"] > 0:
+            discount_score += 0.1
+        offer_scores["discount"] = discount_score
+
+        # Bundle score
+        bundle_score = 0.7
+        if features["caption_length"] > 100:
+            bundle_score += 0.15
+        if features["emoji_count"] > 3:
+            bundle_score += 0.1
+        offer_scores["bundle"] = bundle_score
+
+        # Referral score
+        referral_score = 0.65
+        if features["question_count"] > 0:
+            referral_score += 0.15
+        if features["exclamation_count"] > 0:
+            referral_score += 0.1
+        offer_scores["referral"] = referral_score
+
+        # Conversion rates per offer type
+        conversion_rates = {
+            "free_trial": 0.30,
+            "discount": 0.25,
+            "bundle": 0.20,
+            "referral": 0.18
+        }
+
+        # Pricing from config
+        tier_pricing = {
+            "day_pass": settings.DAY_PASS_PRICE,
+            "monthly_pass": settings.MONTHLY_PASS_PRICE,
+            "three_month_pass": settings.THREE_MONTH_PASS_PRICE
+        }
+
+        # Generate multiple offers (top 3)
+        offers = []
+        sorted_offers = sorted(offer_scores.items(), key=lambda x: x[1], reverse=True)
+
+        for offer_type, score in sorted_offers[:3]:
+            template = self.offer_templates[offer_type]
+            rationale = template["rationale"]
+            suggested_copy = random.choice(template["copy_templates"])
+
+            # Calculate expected conversions and revenue for each tier
+            tier_predictions = []
+            total_revenue = 0
+
+            for tier_name, price in tier_pricing.items():
+                conversions = int(1000 * conversion_rates[offer_type])  # Base: 1000 impressions
+                revenue = conversions * price
+                total_revenue += revenue
+
+                tier_predictions.append({
+                    "tier": tier_name,
+                    "price": price,
+                    "conversions": conversions,
+                    "revenue": revenue
+                })
+
+            offers.append({
+                "offer_type": offer_type,
+                "rationale": rationale,
+                "suggested_copy": suggested_copy,
+                "confidence_score": round(score, 2),
+                "tier_predictions": tier_predictions,
+                "total_expected_revenue": total_revenue
+            })
+
+        return offers
+
     def train(self, training_data: List[Dict[str, Any]]):
         """Train the model on historical offer performance data."""
         self.is_trained = True

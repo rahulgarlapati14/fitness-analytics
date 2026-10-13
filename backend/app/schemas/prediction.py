@@ -8,6 +8,7 @@ class PredictionRequest(BaseModel):
     media_type: Optional[str] = "image"
     offer_type: Optional[str] = None
     hashtags: Optional[List[str]] = None
+    campaign_name: Optional[str] = None
 
 
 class EngagementPrediction(BaseModel):
@@ -44,6 +45,22 @@ class HashtagRecommendation(BaseModel):
     suggested_count: int
     rationale: str
     trending_hashtags: List[str]
+
+
+class TierPrediction(BaseModel):
+    tier: str
+    price: float
+    conversions: int
+    revenue: float
+
+
+class OfferOption(BaseModel):
+    offer_type: str
+    rationale: str
+    suggested_copy: str
+    confidence_score: float
+    tier_predictions: List[TierPrediction]
+    total_expected_revenue: float
 
 
 class PredictionResponse(BaseModel):

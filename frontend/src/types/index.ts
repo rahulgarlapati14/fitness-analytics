@@ -76,4 +76,47 @@ export interface PredictionRequest {
   media_type?: string;
   offer_type?: string;
   hashtags?: string[];
+  campaign_name?: string;
+}
+
+export interface TierPrediction {
+  tier: string;
+  price: number;
+  conversions: number;
+  revenue: number;
+}
+
+export interface OfferOption {
+  offer_type: string;
+  rationale: string;
+  suggested_copy: string;
+  confidence_score: number;
+  tier_predictions: TierPrediction[];
+  total_expected_revenue: number;
+}
+
+export interface CampaignCreate {
+  campaign_name: string;
+  selected_offer_type: string;
+  offer_details: any;
+  suggested_copy: string;
+}
+
+export interface CampaignResponse {
+  id: number;
+  campaign_name: string;
+  campaign_slug: string;
+  selected_offer_type: string;
+  landing_page_url: string;
+  created_at: string;
+}
+
+export interface CampaignListResponse {
+  id: number;
+  campaign_name: string;
+  campaign_slug: string;
+  selected_offer_type: string;
+  landing_page_url: string;
+  is_active: boolean;
+  created_at: string;
 }

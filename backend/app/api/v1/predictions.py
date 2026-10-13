@@ -6,6 +6,7 @@ from ...models.user import User
 from ...models.instagram import InstagramAccount
 from ...models.post import Post
 from ...models.prediction import Prediction
+from ...ml.offer_recommender import OfferRecommender
 from ...schemas.prediction import (
     PredictionRequest,
     PredictionResponse,
@@ -267,6 +268,29 @@ async def recommend_hashtags(
         "suggested_count": recommendation["suggested_count"],
         "rationale": recommendation["rationale"],
         "trending_hashtags": recommendation["trending_hashtags"]
+    }
+
+
+@router.post("/offer-options")
+async def get_offer_options(
+    request: PredictionRequest
+):
+    """Get multiple offer options with multi-tier revenue predictions (no auth for demo)."""
+
+    # Prepare post data for model
+    post_data = {
+        "caption": request.caption or request.campaign_name or "",
+        "media_type": request.media_type,
+        "offer_type": request.offer_type,
+        "hashtags": request.hashtags
+    }
+
+    # Get multiple offer recommendations
+    offer_recommender = OfferRecommender()
+    offer_options = offer_recommender.recommend_multiple(post_data)
+
+    return {
+        "offer_options": offer_options
     }
 
 
