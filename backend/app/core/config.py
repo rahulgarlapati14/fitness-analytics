@@ -49,6 +49,10 @@ class Settings(BaseSettings):
     MONTHLY_PASS_PRICE: float = 50.0
     THREE_MONTH_PASS_PRICE: float = 120.0
 
+    # OpenAI
+    OPENAI_API_KEY: Optional[str] = None
+    OPENAI_MODEL: str = "gpt-4o-mini"
+
     model_config = {
         "env_file": ".env",
         "case_sensitive": True

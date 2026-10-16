@@ -276,22 +276,22 @@ async def get_offer_options(
     request: PredictionRequest
 ):
     """Get multiple offer options with multi-tier revenue predictions (no auth for demo)."""
+    from ...services.openai_service import OpenAIService
 
     # Prepare post data for model
     post_data = {
         "caption": request.caption or request.campaign_name or "",
         "media_type": request.media_type,
         "offer_type": request.offer_type,
-        "hashtags": request.hashtags
+        "hashtags": request.hashtags,
+        "campaign_name": request.campaign_name
     }
 
-    # Get multiple offer recommendations
-    offer_recommender = OfferRecommender()
-    offer_options = offer_recommender.recommend_multiple(post_data)
+    # Try OpenAI first, fallback to heuristic
+    openai_service = OpenAIService()
+    result = await openai_service.generate_offer_prediction(post_data)
 
-    return {
-        "offer_options": offer_options
-    }
+    return result
 
 
 @router.get("/history", response_model=list[PredictionResponse])

@@ -35,7 +35,7 @@ export default function Home() {
       <div className="relative w-64 h-32 mb-8">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="flex space-x-4">
-            {/* Convert Button - Links to Campaigns */}
+            {/* Campaigns Button */}
             <button 
               onClick={() => router.push('/campaigns')}
               className="w-20 h-20 bg-white rounded-2xl shadow-lg flex flex-col items-center justify-center hover:shadow-xl transition-shadow cursor-pointer"
@@ -43,10 +43,10 @@ export default function Home() {
               <svg className="w-8 h-8 text-teal-600 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
               </svg>
-              <span className="text-xs text-gray-700 font-medium">Convert</span>
+              <span className="text-xs text-gray-700 font-medium">Campaigns</span>
             </button>
 
-            {/* Scan Button - Links to Predictions */}
+            {/* Predictions Button */}
             <button 
               onClick={() => router.push('/predictions')}
               className="w-20 h-20 bg-white rounded-2xl shadow-lg flex flex-col items-center justify-center hover:shadow-xl transition-shadow cursor-pointer"
@@ -55,10 +55,10 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span className="text-xs text-gray-700 font-medium">Scan</span>
+              <span className="text-xs text-gray-700 font-medium">Predict</span>
             </button>
 
-            {/* Edit Button - Links to Analytics */}
+            {/* Analytics Button */}
             <button 
               onClick={() => router.push('/analytics')}
               className="w-20 h-20 bg-white rounded-2xl shadow-lg flex flex-col items-center justify-center hover:shadow-xl transition-shadow cursor-pointer"
@@ -66,14 +66,17 @@ export default function Home() {
               <svg className="w-8 h-8 text-orange-600 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
-              <span className="text-xs text-gray-700 font-medium">Edit</span>
+              <span className="text-xs text-gray-700 font-medium">Analyze</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* Search Icon */}
-      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow cursor-pointer">
+      <div 
+        onClick={() => router.push('/search')}
+        className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+      >
         <svg className="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
