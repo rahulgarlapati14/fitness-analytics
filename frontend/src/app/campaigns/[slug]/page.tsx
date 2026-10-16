@@ -11,6 +11,7 @@ interface Campaign {
   selected_offer_type: string;
   landing_page_url: string;
   created_at: string;
+  [key: string]: any;
 }
 
 export default function CampaignLandingPage() {
