@@ -23,8 +23,8 @@ export default function CampaignsPage() {
 
   const loadCampaigns = async () => {
     try {
-      const data = await campaignAPI.listCampaigns();
-      setCampaigns(data);
+      const response = await campaignAPI.listCampaigns();
+      setCampaigns(response.data);
     } catch (error) {
       console.error('Failed to load campaigns:', error);
     } finally {

@@ -35,7 +35,7 @@ export default function NewCampaignPage() {
         caption: caption,
         media_type: 'image',
       });
-      setOfferOptions(response.offer_options);
+      setOfferOptions(response.data.offer_options);
     } catch (error) {
       console.error('Failed to generate offers:', error);
       alert('Failed to generate offers. Please try again.');
@@ -63,7 +63,7 @@ export default function NewCampaignPage() {
         suggested_copy: selectedOffer.suggested_copy,
       });
 
-      router.push(`/campaigns/${response.campaign_slug}`);
+      router.push(`/campaigns/${response.data.campaign_slug}`);
     } catch (error) {
       console.error('Failed to create campaign:', error);
       alert('Failed to create campaign. Please try again.');

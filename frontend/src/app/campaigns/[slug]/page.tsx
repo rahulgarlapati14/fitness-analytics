@@ -27,8 +27,8 @@ export default function CampaignLandingPage() {
 
   const loadCampaign = async () => {
     try {
-      const data = await campaignAPI.getCampaign(slug);
-      setCampaign(data);
+      const response = await campaignAPI.getCampaign(slug);
+      setCampaign(response.data);
     } catch (error) {
       console.error('Failed to load campaign:', error);
       setError(true);
