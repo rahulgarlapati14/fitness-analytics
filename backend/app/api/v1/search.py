@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from typing import Dict, Any
 from ...services.openai_service import OpenAIService
@@ -18,7 +18,7 @@ class SearchRequest(BaseModel):
 @router.post("/search")
 async def search_content(
     request: SearchRequest,
-    db: AsyncSession = AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Search across campaigns and predictions using AI."""
     openai_service = OpenAIService()

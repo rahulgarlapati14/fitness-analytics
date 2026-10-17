@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "good-css": {
+      "source": "vojtaholik/good-css",
+      "sourceType": "github",
+      "skillPath": "skills/good-css/SKILL.md",
+      "computedHash": "8d05f29e9139fd3a0ad1ea3a77f7d0c5076f561a618ea67115cb19f0c382cea7"
+    }
+  }
+}
