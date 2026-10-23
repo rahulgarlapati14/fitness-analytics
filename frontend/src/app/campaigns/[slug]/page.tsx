@@ -16,7 +16,7 @@ interface Campaign {
 
 export default function CampaignLandingPage() {
   const params = useParams();
-  const slug = params.slug as string;
+  const slug = params?.slug as string;
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
